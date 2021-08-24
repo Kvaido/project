@@ -1,0 +1,27 @@
+ui:
+  image:
+    repository: kvaido/search_ui
+    tag: "latest"
+  service:
+    externalPort: 80
+  ingress:
+    class: nginx
+
+crawler:
+  image:
+    repository: kvaido/search_crawler
+    tag: "latest"
+  service:
+    externalPort: 8000
+  queue:
+    user: guest
+    password: guest
+
+mongodb:
+  auth:
+    enabled: false
+
+rabbitmq:
+  auth:
+    username: guest
+    password: guest

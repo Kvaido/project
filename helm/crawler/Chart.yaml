@@ -1,0 +1,7 @@
+name: crawler
+version: 1.0.0
+description: OTUS search engine application Crawler
+maintainers:
+- name: Nasimi Mamed-zade
+  email: devops@kvaido.com
+appVersion: 1.0

@@ -1,0 +1,97 @@
+---
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  image: docker:19.03.12
+  stage: build
+  services:
+    - docker:19.03.12-dind
+  when: manual
+  before_script:
+    - >
+      if [[ -n "$CI_REGISTRY_USER" ]]; then
+        echo "Logging to GitLab Container Registry with CI credentials...for build"
+        docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+      fi
+  script:
+    - ls
+    - cd Docker/search_engine_ui && docker build -t kvaido/search_ui:latest . 
+    - docker push kvaido/search_ui:latest
+    - cd ../search_engine_crawler && docker build -t kvaido/search_crawler:latest .
+    - docker push kvaido/search_crawler:latest
+
+test_crawler:
+  stage: test
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  when: manual
+  before_script:
+    - docker run --name=test_crawler -d kvaido/search_crawler:latest
+  script:
+    - docker exec -t test_crawler sh -c "python -m unittest discover -s tests/ "
+  after_script:
+    - docker ps
+    - docker images
+    - docker stop test_crawler && docker rm test_crawler
+
+test_ui:
+  stage: test
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  when: manual
+  before_script:
+    - docker run --name=test_ui -d kvaido/search_ui:latest
+  script:
+    - docker exec -t test_ui sh -c "cd .. && python -m unittest discover -s tests/ "
+  after_script:
+    - docker ps
+    - docker images
+    - docker stop test_ui && docker rm test_ui
+
+deploy_app:
+  stage: deploy
+  image: alpine:latest
+  variables:
+    KUBE_NAMESPACE: prod
+  before_script:
+    - apk add -U openssl curl tar gzip bash ca-certificates git jq
+    - curl https://get.helm.sh/helm-v3.5.0-linux-amd64.tar.gz | tar zx
+    - mv linux-amd64/helm /usr/bin/
+    - helm version --client
+    - curl -L -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.18.12/bin/linux/amd64/kubectl
+    - chmod +x /usr/bin/kubectl
+    - kubectl version --client
+    - curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /usr -n
+    - chmod +x /usr/bin/yc
+    - yc config profile create sa-profile
+    - echo $DEPLOY_SRV_KEY > k8-deploy.json
+    - yc config set service-account-key k8-deploy.json
+    - yc config set folder-id $FOLDER_ID
+    - yc k8s cluster list
+    - KUBE_NS=$(yc k8s cluster list | awk 'NR==4 {print $2}')
+    - yc managed-kubernetes cluster get-credentials $KUBE_NS --external --force 
+    - KUBE_URL=$(yc managed-kubernetes cluster list | grep https | awk '/http/ {print $13}')
+    - kubectl apply -f gitlab-admin-service-account.yaml
+    - kubectl create ns "$KUBE_NAMESPACE"
+    - kubectl create ns monitoring
+    - kubectl create ns ingress
+    - kubectl get ns
+    - cd helm 
+    - helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    - helm repo update
+    - helm install nginx --version 3.35.0 ingress-nginx/ingress-nginx -f ingress-nginx/values.yaml -n ingress
+    - helm dep build prometheus
+    - helm dep update ./prometheus
+    - helm install prometheus prometheus -n monitoring 
+  script:
+    - helm repo add bitnami https://charts.bitnami.com/bitnami
+    - helm repo update
+    - helm dep build search-engine
+    - helm dep update ./search-engine
+    - helm install search-engine search-engine -n prod
+    - kubectl get svc -A

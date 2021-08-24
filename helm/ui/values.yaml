@@ -1,0 +1,13 @@
+---
+service:
+  internalPort: 8000
+  externalPort: 80
+
+image:
+  repository: kvaido/search_ui
+  tag: latest
+
+ingress:
+  class: nginx
+
+databaseHost:

@@ -1,0 +1,18 @@
+---
+service:
+  internalPort: 8000
+  externalPort: 8000
+
+image:
+  repository: kvaido/search_crawler
+  tag: latest
+
+databaseHost:
+
+queue:
+  host:
+  name:
+  user:
+  password:
+  interval:
+  exclude:
