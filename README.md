@@ -24,8 +24,6 @@ yc managed-kubernetes cluster get-credentials otus-cluster --external --force
 
 **Settings** --> **CI/CD** --> **Variables**
 
-И создать следующие переменные:
-
 Для переменой **FOLDER_ID** через CLI необходимо выполнить комманду:
 ```sh
 yc config list
