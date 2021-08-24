@@ -74,7 +74,7 @@ http://search-engine
 
 И нажать кнопку [**Add data sources**] --> Выбрать как источник данных **Prometheus**.
 
-В раздел **URL** вписать - <b>http://prometheus-search-engine</b>
+В поле **URL** вписать - <b>http://prometheus-search-engine</b>
 
 В выподающем меню **Access** выбрать Browser и внизу страницы нажать кнопку [**Save & test**]
 
