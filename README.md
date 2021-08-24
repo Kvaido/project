@@ -53,7 +53,7 @@ git remote add origin git@gitlab.com:username/projectpath.git
 После того как закончит свою работу pipeline, в левом меню проекта на GITLAB выбрать CD/CD --> Jobs и найти в конце **deploy_app** вывод команды kubectl get svc -A
 и скопивароть внешний IP адрес ingress контроллера (**EXTERNAL-IP**).
 
-Далее добавить его в файл **/etc/hosts**, если это ОС Linux, в **C:\Windows\system32\drivers\etc\hosts** в случае Windows или **/private/etc/hosts** в MacOS, в следующем виде.
+Далее добавить его в файл **/etc/hosts**, если это ОС Linux или macOS X, в случае Windows файл находится в **C:\Windows\system32\drivers\etc\hosts**.
 
 ```sh
 EXTERNAL-IP search-engine prometheus-search-engine grafana-search-engine alertmanager-search-engine
