@@ -19,6 +19,7 @@ yc managed-kubernetes cluster get-credentials otus-cluster --external --force
 ```
 ### Настройка GITLAB
 Авторизровавщиись в GITLAB, пройти далее:
+
 Добавить ssh ключ 
 
 Создать новый проект 
@@ -51,6 +52,7 @@ git remote add origin git@gitlab.com:username/projectpath.git
 ```
 После того как закончит свою работу pipeline, в левом меню проекта на GITLAB выбрать CD/CD --> Jobs и найти в конце **deploy_app** вывод команды kubectl get svc -A
 и скопивароть внешний IP адрес ingress контроллера (**EXTERNAL-IP**).
+
 Далее добавить его в файл **/etc/hosts**, если это ОС Linux, в **C:\Windows\system32\drivers\etc\hosts** в случае Windows или **/private/etc/hosts** в MacOS, в следующем виде.
 
 ```sh
@@ -67,11 +69,17 @@ http://search-engine
 В браузере открыть страницу http://grafana-search-engine
 
 Авторизоваться используя *admin/password*
+
 В левом меню выбрать **Configuration** --> **Data sources**.
+
 И нажать кнопку [**Add data sources**] --> Выбрать как источник данных **Prometheus**.
+
 В раздел **URL** вписать - <b>http://prometheus-search-engine</b>
+
 В выподающем меню **Access** выбрать Browser и внизу страницы нажать кнопку [**Save & test**]
+
 Далее в левом меню выбрать **Dashboards** --> **Manage** и нажать кнопку [**Import**]
+
 Нажать кнопку [**Upload JSON file**] и выбрать файл project.json находящийся по адресу
 ```sh
 otus-devops-project/helm/grafana/dashboards/project.json
