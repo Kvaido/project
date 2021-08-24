@@ -18,22 +18,24 @@ terraform init && terraform apply -auto-approve
 yc managed-kubernetes cluster get-credentials otus-cluster --external --force
 ```
 ### Настройка GITLAB
-Авторизровавщиись в GITLAB, пройти далее:
+Авторизровавщиись в GITLAB, необходиом создать новый проект и добавить ssh ключ.
 
-Добавить ssh ключ 
-
-Создать новый проект 
+Далее необходимо добавить переменные в меню GITLAB.
 
 **Settings** --> **CI/CD** --> **Variables**
 
 И создать следующие переменные:
+
 Для переменой **FOLDER_ID** через CLI необходимо выполнить комманду:
 ```sh
 yc config list
 ```
 Ввести в виде переменных логин/пароль от docker hub
+
 **CI_REGISTRY** - 'index.docker.io'
+
 **CI_REGISTRY_USER** - логин на hub.docker.io
+
 **CI_REGISTRY_PASSWORD** - пароль
 
 В CLI получить список сервисных аккаунтов, которые существуют в облаке (Если нет сервисного аккаунта, то его необхоимо [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create))
