@@ -27,11 +27,8 @@ FOLDER_ID
 yc config list
 ```
 Ввести в виде переменных логин/пароль от docker hub
-
 CI_REGISTRY - 'index.docker.io'
-
 CI_REGISTRY_USER - логин на hub.docker.io
-
 CI_REGISTRY_PASSWORD - пароль
 
 Получить список сервисных аккаунтов, которые существуют в облаке (Если нет сервисного аккаунта, то его необхоимо [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create))
@@ -54,3 +51,17 @@ git remote add origin git@gitlab.com:username/projectpath.git
 ```sh
 EXTERNAL_IP search-engine prometheus-search-engine grafana-search-engine alertmanager-search-engine
 ```
+### Настройка монитринга
+В браузере открыть страницу http://grafana-search-engine
+
+Авторизоваться используя admin/password
+В левом меню выбрать Configuration -- Data sources 
+И нажать кнопку [Add data sources] -- Выбрать как источник данных Prometheus
+В раздел URL вписать - <b>http://prometheus-search-engine</b>
+В выподающем меню Access выбрать Browser и внизу страницы нажать кнопку [Save & test]
+Далее в левом меню выбрать Dashboards -- Manage и нажать кнопку [Import]
+Нажать кнопку [Upload JSON file] и выбрать файл project.json находящийся по адресу
+```sh
+otus-devops-project/helm/grafana/dashboards/project.json
+```
+
