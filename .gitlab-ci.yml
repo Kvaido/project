@@ -9,7 +9,7 @@ build:
   stage: build
   services:
     - docker:19.03.12-dind
-  when: manual
+ # when: manual
   before_script:
     - >
       if [[ -n "$CI_REGISTRY_USER" ]]; then
@@ -28,7 +28,7 @@ test_crawler:
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
-  when: manual
+ # when: manual
   before_script:
     - docker run --name=test_crawler -d kvaido/search_crawler:latest
   script:
@@ -43,7 +43,7 @@ test_ui:
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
-  when: manual
+ # when: manual
   before_script:
     - docker run --name=test_ui -d kvaido/search_ui:latest
   script:

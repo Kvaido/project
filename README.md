@@ -9,7 +9,7 @@
 * gitlab.com account
 
 ### Подготовка 
-Небходимо скачать на локальну машину проект
+Небходимо скачать на локальную машину проект.
 ```sh
 git clone git@github.com:Kvaido/project.git
 ```
@@ -73,7 +73,7 @@ yc managed-kubernetes cluster get-credentials otus-cluster --external --force
 ### Настройка GITLAB
 Авторизровавщиись в GITLAB, необходиом создать новый проект и добавить ssh ключ.
 
-Далее необходимо добавить переменные в меню GITLAB.
+Далее необходимо добавить переменные (переменные должны быть без галочки Protect variable) в меню GITLAB.
 
 **Settings** --> **CI/CD** --> **Variables**
 
@@ -93,7 +93,7 @@ yc config list
 
 Далее необхоимо отправить приложение для дальнейшей сборки в GITLAB выполнив в корне каталога проекта комманду:
 ```sh
-git remote set-url origin git@gitlab.com:USERNAME/otus-devops-project.git
+git remote set-url origin git@gitlab.com:USERNAME/projectname.git
 ```
 ```sh
 git push -u origin
@@ -113,7 +113,7 @@ http://search-engine
 ```
 Отроется страница с поиском.
 
-### Настройка монитринга
+### Настройка мониторинга
 В браузере открыть страницу http://grafana-search-engine
 
 Авторизоваться используя *admin/password*
