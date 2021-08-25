@@ -3,14 +3,22 @@
 ### Пререквизиты
 * yc - Yandex.Cloud CLI 0.80.0 linux/amd64
 * kubectl
+* git
 * Terraform v1.0.0
 * Helm 3.6.2
 * gitlab.com account
+
+### Подготовка 
+Небходимо скачать на локальну машину проект
+```sh
+git clone git@github.com:Kvaido/project.git
+```
 
 ### Разворачивание кластера
 ```sh
 cd otus-devops-project/kubernetes/terraform/prod
 ```
+Запонить файл terraform.tfvars переменными
 ```sh
 terraform init && terraform apply -auto-approve
 ```
