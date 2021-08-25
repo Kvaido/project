@@ -99,6 +99,7 @@ git remote set-url origin git@gitlab.com:USERNAME/projectname.git
 git push -u origin
 ```
 Появится новая ветка - **master**.
+
 После того как закончит свою работу pipeline, в левом меню проекта в GITLAB выбрать CD/CD --> Jobs и найти в конце **deploy_app** вывод команды kubectl get svc -A
 и скопивароть внешний IP адрес ingress контроллера (**EXTERNAL-IP**).
 
