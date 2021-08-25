@@ -16,9 +16,20 @@ git clone git@github.com:Kvaido/project.git
 
 ### Разворачивание кластера
 ```sh
-cd otus-devops-project/kubernetes/terraform/prod
+cd project/kubernetes/terraform/prod
 ```
 Запонить файл terraform.tfvars переменными
+cloud_id                 = "cloud_id"
+folder_id                = "folder_id"
+zone                     = "ru-central1-a""
+public_key_path          = "/path/to/ssh/pub_key"
+private_key_path         = "/path/to/ssh/private_key"
+service_account_key_file = "path_to_key_file"
+access_key               = "access_key"
+secret_key               = "secret_key"
+service_account_key_id   = "service_account_key_id"
+
+
 ```sh
 terraform init && terraform apply -auto-approve
 ```
