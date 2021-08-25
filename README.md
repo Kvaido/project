@@ -48,9 +48,12 @@ yc iam key create --service-account-name <Название сервисного 
 
 Далее необхоимо отправить приложение для дальнейшей сборки в GITLAB выполнив в корне каталога проекта комманду:
 ```sh
-git remote add origin git@gitlab.com:username/projectpath.git
+git remote set-url origin git@gitlab.com:USERNAME/otus-devops-project.git
 ```
-После того как закончит свою работу pipeline, в левом меню проекта на GITLAB выбрать CD/CD --> Jobs и найти в конце **deploy_app** вывод команды kubectl get svc -A
+```sh
+git push -u origin
+```
+После того как закончит свою работу pipeline, в левом меню проекта в GITLAB выбрать CD/CD --> Jobs и найти в конце **deploy_app** вывод команды kubectl get svc -A
 и скопивароть внешний IP адрес ingress контроллера (**EXTERNAL-IP**).
 
 Далее добавить его в файл **/etc/hosts**, если это ОС Linux или macOS X, в случае Windows файл находится в **C:\Windows\system32\drivers\etc\hosts**.
