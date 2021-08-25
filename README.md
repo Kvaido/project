@@ -18,18 +18,52 @@ git clone git@github.com:Kvaido/project.git
 ```sh
 cd project/kubernetes/terraform/prod
 ```
-Запонить файл terraform.tfvars переменными
-cloud_id                 = "cloud_id"
-folder_id                = "folder_id"
+В CLI получить список сервисных аккаунтов, которые существуют в облаке (Если нет сервисного аккаунта, то его необхоимо [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create))
+```sh
+yc iam service-account --folder-id <ID каталога> list
+```
+Создать авторизованный ключ для сервисного аккаунта и сохранить его в файл key.json.
+Он потребуется далее.
+```sh
+yc iam key create --service-account-name <Название сервисного аккаунта> --output key.json
+```
+
+Запонить файл terraform.tfvars переменными (шаблон terraform.tfvars.example):
+```sh
+cp terraform.tfvars.example terraform.tfvars
+```
+
+cloud_id                 = "идентификатор облака"
+
+folder_id                = "идентификатор каталога"
+
 zone                     = "ru-central1-a""
+
 public_key_path          = "/path/to/ssh/pub_key"
+
 private_key_path         = "/path/to/ssh/private_key"
-service_account_key_file = "path_to_key_file"
+
+service_account_key_file = "path_to_key_file.json"
+
 access_key               = "access_key"
+
 secret_key               = "secret_key"
+
 service_account_key_id   = "service_account_key_id"
 
+Переменные **cloud_id** и **folder_id** можно получить из вывода комманды 
+```sh
+yc config list
+```
+Переменная **service_account_key_file**, как видно из названия, указывает на авторизованный ключ для сервисного аккаунта срасширением json полученный ранее.
 
+**service_account_key_id**  можно получить выводом команды 
+```sh
+yc iam service-account list
+```
+Переменные access_key и secret_key необходимо  [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create-access-key)
+
+Публичный ssh ключ должен быть помещен в облако.
 ```sh
 terraform init && terraform apply -auto-approve
 ```
@@ -55,15 +89,7 @@ yc config list
 
 **CI_REGISTRY_PASSWORD** - пароль
 
-В CLI получить список сервисных аккаунтов, которые существуют в облаке (Если нет сервисного аккаунта, то его необхоимо [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create))
-```sh
-yc iam service-account --folder-id <ID каталога> list
-```
-Создать авторизованный ключ для сервисного аккаунта и сохранить его в файл key.json
-```sh
-yc iam key create --service-account-name <Название сервисного аккаунта> --output key.json
-```
-Содержимое файла **key.json** скопировать и в GITLAB создать переменную **DEPLOY_SRV_KEY**
+Содержимое ранее полученного файла **key.json** скопировать и в GITLAB создать переменную **DEPLOY_SRV_KEY**
 
 Далее необхоимо отправить приложение для дальнейшей сборки в GITLAB выполнив в корне каталога проекта комманду:
 ```sh
