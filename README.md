@@ -130,5 +130,5 @@ http://search-engine
 
 Нажать кнопку [**Upload JSON file**] и выбрать файл project.json находящийся по адресу
 ```sh
-otus-devops-project/helm/grafana/dashboards/project.json
+project/helm/grafana/dashboards/project.json
 ```
