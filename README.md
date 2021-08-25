@@ -61,9 +61,9 @@ yc config list
 ```sh
 yc iam service-account list
 ```
-Переменные access_key и secret_key необходимо  [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create-access-key)
+Переменные **access_key** и **secret_key** необходимо [создать](https://cloud.yandex.ru/docs/iam/operations/sa/create-access-key).
 
-Публичный ssh ключ должен быть помещен в облако.
+Публичный **ssh** ключ должен быть помещен в облако.
 ```sh
 terraform init && terraform apply -auto-approve
 ```
